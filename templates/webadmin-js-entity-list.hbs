@@ -1,7 +1,231 @@
-// {{projectName}} WebAdmin - {{entity}} list page
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('Init list for {{entity}}');
-    // TODO: Fetch and render table
-});
+"use strict";
 
+(function () {
+    // Class definition
+    const {{entity}}Page = {
+        table: null,
+        formValidator: null,
+        permissionFlags: AppUtils.getPermissionFlags(),
+        message: {
+            pageTitle: I18n.t("{{entityName}}", "PAGE_TITLE"),
+            actions: I18n.t("common", "ACTIONS"),
+            create: I18n.t("common", "ADD_NEW"),
+            edit: I18n.t("common", "EDIT"),
+            delete: I18n.t("common", "DELETE"),
+            detail: I18n.t("common", "DETAIL"),
+            forbidden: I18n.t("common", "FORBIDDEN"),
+            confirmTittle: I18n.t("common", "CONFIRM_TITLE"),
+            successTitle: I18n.t("common", "SUCCESS_TITLE"),
+            errorTitle: I18n.t("common", "ERROR_TITLE"),
+            failTitle: I18n.t("common", "FAIL_TITLE"),
+            warningTitle: I18n.t("common", "WARNING_TITLE"),
+            createConfirm: I18n.t("common", "CREATE_CONFIRM", { name: I18n.t("{{entityName}}", "PAGE_TITLE").toLocaleLowerCase() }),
+            createSuccess: I18n.t("common", "CREATE_SUCCESS", { name: I18n.t("{{entityName}}", "PAGE_TITLE").toLocaleLowerCase() }),
+            createError: I18n.t("common", "CREATE_ERROR", { name: I18n.t("{{entityName}}", "PAGE_TITLE").toLocaleLowerCase() }),
+            updateConfirm: I18n.t("common", "UPDATE_CONFIRM", { name: I18n.t("{{entityName}}", "PAGE_TITLE").toLocaleLowerCase() }),
+            updateSuccess: I18n.t("common", "UPDATE_SUCCESS", { name: I18n.t("{{entityName}}", "PAGE_TITLE") }),
+            updateError: I18n.t("common", "UPDATE_ERROR", { name: I18n.t("{{entityName}}", "PAGE_TITLE").toLocaleLowerCase() }),
+            deleteConfirm: I18n.t("common", "DELETE_CONFIRM", { name: I18n.t("{{entityName}}", "PAGE_TITLE").toLocaleLowerCase() }),
+            deleteSuccess: I18n.t("common", "DELETE_SUCCESS", { name: I18n.t("{{entityName}}", "PAGE_TITLE").toLocaleLowerCase() }),
+            deleteError: I18n.t("common", "DELETE_ERROR", { name: I18n.t("{{entityName}}", "PAGE_TITLE").toLocaleLowerCase() }),
+            notFound: I18n.t("common", "NOT_FOUND", { name: I18n.t("{{entityName}}", "PAGE_TITLE").toLocaleLowerCase() }),
+            validationError: I18n.t("common", "VALIDATION_ERROR")
+        },
+        init: function () {
+            this.checkPermissions();
+            this.initDataTable();
+            this.loadRelatedData();
+            this.bindEvents();
+            this.formValidator = new FormValidator({
+                formSelector: "#kt_modal_{{entityName}}_form",
+                handleSubmit: saveData,
+                rules: [
+                    {{#each properties}}
+                    {{#if isRequired}}
+                    {
+                        element: "#{{entityName}}_{{name}}",
+                        rule: [
+                            {
+                                name: "required",
+                                message: I18n.t("common", "REQUIRED", { field: "{{displayName}}" })
+                            }{{#if maxLength}},
+                            {
+                                name: "maxLength",
+                                message: I18n.t("common", "TOO_LONG", { field: "{{displayName}}", max: {{maxLength}} }),
+                                params: {{maxLength}}
+                            }{{/if}}
+                        ]
+                    }{{#unless @last}},{{/unless}}
+                    {{/if}}
+                    {{/each}}
+                ]
+            });
+        },
+        initDataTable: function () {
+            this.table = $("#{{entityName}}_datatable").DataTable({
+                processing: true,
+                serverSide: true,
+                paging: true,
+                searching: { regex: true },
+                order: [{{lastColumnIndex}}, 'desc'],
+                language: AppSettings.dataTableLanguage.vi,
+                ajax: {
+                    url: ApiRoutes.{{entity}}.v1.PagedAdvanced,
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    headers: {
+                        'Authorization': 'Bearer ' + TokenService.getAccessToken()
+                    },
+                    error: async function (xhr, status, error) {
+                        if (xhr.status === 401) {
+                            await TokenService.refreshToken();
+                            const tableSettings = {{entity}}Page.table.settings()[0];
+                            tableSettings.ajax.headers.Authorization = "Bearer " + TokenService.getAccessToken();
+                            {{entity}}Page.table.ajax.reload();
+                        }
+                    },
+                    dataSrc: {
+                        data: 'resources.data',
+                        draw: 'resources.draw',
+                        recordsTotal: 'resources.recordsTotal',
+                        recordsFiltered: 'resources.recordsFiltered'
+                    },
+                    data: function (d) {
+                        return JSON.stringify(d);
+                    }
+                },
+                columns: [
+                    {
+                        data: 'id',
+                        render: function (data, type, row, meta) {
+                            const info = {{entity}}Page.table.page.info();
+                            const index = meta.row + 1 + info.page * info.length;
+                            return index;
+                        }
+                    },
+                    {{#each properties}}
+                    {
+                        data: '{{name}}',
+                        render: function (data, type, row) {
+                            {{#if (eq type "DateTime")}}
+                            return data ? moment(data).format('DD/MM/YYYY HH:mm') : '';
+                            {{else}}
+                            return data || '';
+                            {{/if}}
+                        }
+                    }{{#unless @last}},{{/unless}}
+                    {{/each}}
+                    ,
+                    {
+                        data: null,
+                        orderable: false,
+                        render: function (data, type, row) {
+                            let actions = '';
+                            if ({{entity}}Page.permissionFlags.canView) {
+                                actions += `<a href="#" class="btn btn-sm btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">${ {{entity}}Page.message.actions }<i class="ki-duotone ki-down fs-5 ms-1"></i></a>
+                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
+                                        <div class="menu-item px-3">
+                                            <a href="#" class="menu-link px-3" onclick="{{entity}}Page.view('${row.id}')">${ {{entity}}Page.message.detail }</a>
+                                        </div>
+                                        ${ {{entity}}Page.permissionFlags.canEdit ? `<div class="menu-item px-3">
+                                            <a href="#" class="menu-link px-3" onclick="{{entity}}Page.edit('${row.id}')">${ {{entity}}Page.message.edit }</a>
+                                        </div>` : '' }
+                                        ${ {{entity}}Page.permissionFlags.canDelete ? `<div class="menu-item px-3">
+                                            <a href="#" class="menu-link px-3" onclick="{{entity}}Page.delete('${row.id}')">${ {{entity}}Page.message.delete }</a>
+                                        </div>` : '' }
+                                    </div>`;
+                            }
+                            return actions;
+                        }
+                    }
+                ]
+            });
+        },
+        loadRelatedData: function () {
+            // Load related data for dropdowns if needed
+        },
+        bindEvents: function () {
+            // Add event listeners
+            $("#kt_modal_{{entityName}}_form").on('submit', function (e) {
+                e.preventDefault();
+                {{entity}}Page.formValidator.validate();
+            });
+        },
+        checkPermissions: function () {
+            if (!{{entity}}Page.permissionFlags.canView) {
+                window.location.href = '/error/403';
+            }
+        },
+        view: function (id) {
+            window.location.href = `/{{entityName}}/detail/${id}`;
+        },
+        edit: function (id) {
+            window.location.href = `/{{entityName}}/form/${id}`;
+        },
+        delete: function (id) {
+            Swal.fire({
+                title: {{entity}}Page.message.confirmTittle,
+                text: {{entity}}Page.message.deleteConfirm,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Xóa",
+                cancelButtonText: "Hủy"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    {{entity}}Page.performDelete(id);
+                }
+            });
+        },
+        performDelete: function (id) {
+            HttpService.delete(ApiRoutes.{{entity}}.v1.Delete.replace('{id}', id))
+                .then(response => {
+                    Swal.fire({
+                        title: {{entity}}Page.message.successTitle,
+                        text: {{entity}}Page.message.deleteSuccess,
+                        icon: "success"
+                    });
+                    {{entity}}Page.table.ajax.reload();
+                })
+                .catch(error => {
+                    Swal.fire({
+                        title: {{entity}}Page.message.errorTitle,
+                        text: {{entity}}Page.message.deleteError,
+                        icon: "error"
+                    });
+                });
+        }
+    };
 
+    // Global functions
+    window.saveData = function () {
+        const formData = new FormData(document.getElementById('kt_modal_{{entityName}}_form'));
+        const data = Object.fromEntries(formData);
+        
+        const url = data.id ? ApiRoutes.{{entity}}.v1.Update.replace('{id}', data.id) : ApiRoutes.{{entity}}.v1.Create;
+        const method = data.id ? 'PUT' : 'POST';
+        
+        HttpService[method.toLowerCase()](url, data)
+            .then(response => {
+                Swal.fire({
+                    title: {{entity}}Page.message.successTitle,
+                    text: data.id ? {{entity}}Page.message.updateSuccess : {{entity}}Page.message.createSuccess,
+                    icon: "success"
+                });
+                $('#kt_modal_{{entityName}}_form').modal('hide');
+                {{entity}}Page.table.ajax.reload();
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: {{entity}}Page.message.errorTitle,
+                    text: data.id ? {{entity}}Page.message.updateError : {{entity}}Page.message.createError,
+                    icon: "error"
+                });
+            });
+    };
+
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', function () {
+        {{entity}}Page.init();
+    });
+})();

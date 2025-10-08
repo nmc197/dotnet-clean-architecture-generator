@@ -1,7 +1,84 @@
-// {{projectName}} WebAdmin - {{entity}} detail page
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('Init detail for {{entity}}');
-    // TODO: Fetch and render details by id
-});
+"use strict";
 
+(function () {
+    // Class definition
+    const {{entity}}DetailPage = {
+        permissionFlags: AppUtils.getPermissionFlags(),
+        message: {
+            pageTitle: I18n.t("{{entityName}}", "PAGE_TITLE"),
+            edit: I18n.t("common", "EDIT"),
+            back: I18n.t("common", "BACK"),
+            errorTitle: I18n.t("common", "ERROR_TITLE"),
+            notFound: I18n.t("common", "NOT_FOUND", { name: I18n.t("{{entityName}}", "PAGE_TITLE").toLocaleLowerCase() })
+        },
+        init: function () {
+            this.checkPermissions();
+            this.loadData();
+            this.bindEvents();
+        },
+        loadData: function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            
+            if (!id) {
+                Swal.fire({
+                    title: this.message.errorTitle,
+                    text: this.message.notFound,
+                    icon: "error"
+                }).then(() => {
+                    window.location.href = '/{{entityName}}/list';
+                });
+                return;
+            }
+            
+            this.loadEntityData(id);
+        },
+        loadEntityData: function (id) {
+            HttpService.get(ApiRoutes.{{entity}}.v1.GetById.replace('{id}', id))
+                .then(response => {
+                    this.displayData(response.data);
+                })
+                .catch(error => {
+                    Swal.fire({
+                        title: this.message.errorTitle,
+                        text: this.message.notFound,
+                        icon: "error"
+                    }).then(() => {
+                        window.location.href = '/{{entityName}}/list';
+                    });
+                });
+        },
+        displayData: function (data) {
+            {{#each properties}}
+            {{#if (eq type "DateTime")}}
+            if (data.{{name}}) {
+                $("#{{entityName}}_{{name}}").text(moment(data.{{name}}).format('DD/MM/YYYY HH:mm'));
+            }
+            {{else}}
+            $("#{{entityName}}_{{name}}").text(data.{{name}} || '');
+            {{/if}}
+            {{/each}}
+        },
+        bindEvents: function () {
+            $("#btn_edit").on('click', () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get('id');
+                window.location.href = `/{{entityName}}/form?id=${id}`;
+            });
+            
+            $("#btn_back").on('click', () => {
+                window.location.href = '/{{entityName}}/list';
+            });
+        },
+        checkPermissions: function () {
+            if (!this.permissionFlags.canView) {
+                window.location.href = '/error/403';
+            }
+        }
+    };
 
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', function () {
+        {{entity}}DetailPage.init();
+    });
+})();

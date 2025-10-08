@@ -20,6 +20,11 @@ class TemplateEngine {
       return options.inverse(this);
     });
 
+    // Helper for equality check
+    Handlebars.registerHelper('isEqual', function(a, b) {
+      return a === b;
+    });
+
     // Helper for not equal
     Handlebars.registerHelper('if_ne', function(a, b, options) {
       if (a !== b) {

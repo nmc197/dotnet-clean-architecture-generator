@@ -1,0 +1,181 @@
+===============================================
+HUONG DAN GENERATE PROJECT .NET CLEAN ARCHITECTURE
+===============================================
+
+CAC BUOC THUC HIEN:
+
+1. CHUAN BI DU LIEU
+   ================
+   
+   a) Chuan bi file SQL:
+      - File SQL chua cac CREATE TABLE statements
+      - Dam bao co day du cot, kieu du lieu, primary key, foreign key
+      - Vi du: b05.sql, my-project.sql, etc.
+   
+   b) Parse SQL sang JSON:
+      - Chay: node simple-sql-parser.js
+      - Hoac tao file JSON thu cong theo format chuan
+      - File JSON phai co cau truc:
+        {
+          "projectName": "TenProject",
+          "entities": [
+            {
+              "name": "EntityName",
+              "properties": [...],
+              "relationships": [...]
+            }
+          ]
+        }
+
+2. GENERATE PROJECT
+   ================
+   
+   a) Xoa project cu (neu co):
+      Remove-Item -Path "TenProject-Project" -Recurse -Force
+   
+   b) Chay lenh generate:
+      node src/cli/index.js generate --config ten-project-entities.json --output ./TenProject-Project --project-name TenProject
+   
+   c) Kiem tra ket qua:
+      - Dam bao tat ca layers duoc tao: Domain, Application, Infrastructure, API, Shared, Storage, WebAdmin
+      - Kiem tra so luong files duoc generate (thuong > 300 files)
+      - Xac nhan success rate 100%
+
+3. SETUP WWWROOT ASSETS
+   ====================
+   
+   a) Copy wwwroot assets tu example:
+      - Tao script copy hoac copy thu cong tu examples/wwwroot-example
+      - Copy cac folder: css, js, media, plugins
+      - Giu nguyen cau truc admin/assets/
+   
+   b) Don dep pages folder:
+      - Chi giu lai cac folder entity da generate
+      - Xoa cac folder example khong can thiet
+      - Moi entity folder chi co: general.js + i18n.js
+
+4. KIEM TRA VA XAC NHAN
+   ====================
+   
+   a) Cau truc project:
+      - Domain: Entities, Aggregates, Interfaces
+      - Application: DTOs, Services, Mappings, Validators
+      - Infrastructure: Repositories, Configurations, DI
+      - API: Controllers, Middlewares
+      - Shared: Utilities, Extensions, Helpers
+      - Storage: File services
+      - WebAdmin: Controllers, Views, wwwroot
+   
+   b) WebAdmin structure:
+      - Moi entity co: Controller, Views (List/Detail/Form), JS files
+      - wwwroot/admin/assets/js/pages/[entity]/general.js
+      - wwwroot/admin/assets/js/pages/[entity]/i18n.js
+   
+   c) JavaScript files:
+      - general.js: DataTable, CRUD, validation, API calls
+      - i18n.js: Vietnamese translations, labels, messages
+
+5. CAC LENH QUAN TRONG
+   ===================
+   
+   # Parse SQL sang JSON
+   node simple-sql-parser.js
+   
+   # Generate project
+   node src/cli/index.js generate --config [config-file] --output ./[project-name]-Project --project-name [project-name]
+   
+   # Xoa project cu
+   Remove-Item -Path "[project-name]-Project" -Recurse -Force
+   
+   # Kiem tra cau truc
+   Get-ChildItem -Path "[project-name]-Project" -Recurse | Measure-Object
+
+6. TROUBLESHOOTING
+   ===============
+   
+   a) Loi "No valid CREATE TABLE statements found":
+      - Kiem tra file SQL co dung format khong
+      - Dam bao co [dbo].[TableName] hoac [TableName]
+      - Chay lai simple-sql-parser.js
+   
+   b) Loi "The path argument must be of type string":
+      - Kiem tra outputPath duoc set dung
+      - Dam bao ProjectGenerator nhan dung parameters
+   
+   c) Loi "Missing helper: eq":
+      - Kiem tra template su dung {{#if (isEqual ...)}} thay vi {{#if (eq ...)}}
+      - Dam bao isEqual helper da duoc register
+   
+   d) Loi "Directory not found":
+      - Dam bao project da duoc generate thanh cong
+      - Kiem tra duong dan target directory
+
+7. CAU TRUC FILE JSON CHUAN
+   ========================
+   
+   {
+     "projectName": "MyProject",
+     "entities": [
+       {
+         "name": "User",
+         "properties": [
+           {
+             "name": "UserId",
+             "type": "int",
+             "isRequired": true,
+             "isPrimaryKey": true
+           },
+           {
+             "name": "UserName",
+             "type": "string",
+             "isRequired": false,
+             "maxLength": 100
+           },
+           {
+             "name": "Email",
+             "type": "string",
+             "isRequired": true,
+             "maxLength": 255
+           },
+           {
+             "name": "CreatedAt",
+             "type": "DateTime",
+             "isRequired": false
+           }
+         ],
+         "relationships": [
+           {
+             "name": "UserRoles",
+             "type": "UserRole",
+             "isCollection": true
+           }
+         ]
+       }
+     ]
+   }
+
+8. LUU Y QUAN TRONG
+   ================
+   
+   - Luon backup project cu truoc khi generate moi
+   - Kiem tra file JSON co dung format truoc khi generate
+   - Dam bao tat ca entities co it nhat 1 property
+   - WebAdmin chi generate cho entities co trong JSON config
+   - wwwroot assets can duoc copy rieng sau khi generate
+   - Moi entity se co day du CRUD operations
+
+9. KET QUA MONG DOI
+   ================
+   
+   Sau khi hoan thanh, project se co:
+   - 7 layers chinh (Domain, Application, Infrastructure, API, Shared, Storage, WebAdmin)
+   - Day du CRUD cho moi entity
+   - WebAdmin interface voi DataTable, forms, validation
+   - JavaScript structure voi general.js + i18n.js
+   - 2000+ files trong wwwroot
+   - San sang build va chay
+
+===============================================
+Tac gia: .NET Clean Architecture Generator
+Ngay tao: 08/10/2025 10:37:07
+===============================================

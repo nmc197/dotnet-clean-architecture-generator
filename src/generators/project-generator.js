@@ -804,7 +804,15 @@ class ProjectGenerator extends BaseGenerator {
 
       // Per-entity MVC Controller + Views (List, Detail, Form)
       for (const e of entities) {
-        const data = { projectName, entity: e.name, plural: e.name + 's', props: e.properties || [] };
+        const data = { 
+          projectName, 
+          entity: e.name, 
+          entityName: e.name.toLowerCase(),
+          displayName: e.name,
+          plural: e.name + 's', 
+          properties: e.properties || [],
+          lastColumnIndex: (e.properties || []).length
+        };
 
         const entityCtrlPath = FileUtils.joinPath(
           this.outputPath,
@@ -868,20 +876,19 @@ class ProjectGenerator extends BaseGenerator {
           'pages',
           e.name.toLowerCase()
         );
-        results[`${e.name}JsList`] = await this.generateFile(
-          'templates/webadmin-js-entity-list.hbs',
+        
+        // Generate general.js (replaces list.js, detail.js, form.js)
+        results[`${e.name}JsGeneral`] = await this.generateFile(
+          'templates/webadmin-js-entity-general.hbs',
           data,
-          FileUtils.joinPath(baseJsDir, 'list.js')
+          FileUtils.joinPath(baseJsDir, 'general.js')
         );
-        results[`${e.name}JsDetail`] = await this.generateFile(
-          'templates/webadmin-js-entity-detail.hbs',
+        
+        // Generate i18n.js for translations
+        results[`${e.name}JsI18n`] = await this.generateFile(
+          'templates/webadmin-js-entity-i18n.hbs',
           data,
-          FileUtils.joinPath(baseJsDir, 'detail.js')
-        );
-        results[`${e.name}JsForm`] = await this.generateFile(
-          'templates/webadmin-js-entity-form.hbs',
-          data,
-          FileUtils.joinPath(baseJsDir, 'form.js')
+          FileUtils.joinPath(baseJsDir, 'i18n.js')
         );
       }
 

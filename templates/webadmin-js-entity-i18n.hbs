@@ -1,0 +1,70 @@
+"use strict";
+
+(function () {
+    // I18n translations for {{entity}} entity
+    const {{entity}}I18n = {
+        // Page titles
+        PAGE_TITLE: "{{displayName}}",
+        LIST_PAGE_TITLE: "Danh sách {{displayName}}",
+        CREATE_PAGE_TITLE: "Tạo mới {{displayName}}",
+        EDIT_PAGE_TITLE: "Chỉnh sửa {{displayName}}",
+        DETAIL_PAGE_TITLE: "Chi tiết {{displayName}}",
+        
+        // Field labels
+        {{#each properties}}
+        {{name}}_LABEL: "{{name}}",
+        {{/each}}
+        
+        // Actions
+        ACTIONS: "Thao tác",
+        ADD_NEW: "Thêm mới",
+        EDIT: "Chỉnh sửa",
+        DELETE: "Xóa",
+        DETAIL: "Chi tiết",
+        SAVE: "Lưu",
+        CANCEL: "Hủy",
+        BACK: "Quay lại",
+        SEARCH: "Tìm kiếm",
+        RESET: "Làm mới",
+        
+        // Messages
+        CREATE_SUCCESS: "Tạo mới {{displayName}} thành công",
+        UPDATE_SUCCESS: "Cập nhật {{displayName}} thành công",
+        DELETE_SUCCESS: "Xóa {{displayName}} thành công",
+        CREATE_ERROR: "Có lỗi khi tạo mới {{displayName}}",
+        UPDATE_ERROR: "Có lỗi khi cập nhật {{displayName}}",
+        DELETE_ERROR: "Có lỗi khi xóa {{displayName}}",
+        NOT_FOUND: "Không tìm thấy {{displayName}}",
+        VALIDATION_ERROR: "Dữ liệu không hợp lệ",
+        
+        // Confirmations
+        DELETE_CONFIRM: "Bạn có chắc chắn muốn xóa {{displayName}} này?",
+        CREATE_CONFIRM: "Bạn có chắc chắn muốn tạo mới {{displayName}}?",
+        UPDATE_CONFIRM: "Bạn có chắc chắn muốn cập nhật {{displayName}}?",
+        
+        // Validation messages
+        {{#each properties}}
+        {{#if isRequired}}
+        {{name}}_REQUIRED: "{{displayName}} là bắt buộc",
+        {{/if}}
+        {{#if maxLength}}
+        {{name}}_TOO_LONG: "{{displayName}} không được vượt quá {{maxLength}} ký tự",
+        {{/if}}
+        {{/each}}
+        
+        // Status
+        ACTIVE: "Hoạt động",
+        INACTIVE: "Không hoạt động",
+        PENDING: "Chờ xử lý",
+        APPROVED: "Đã duyệt",
+        REJECTED: "Từ chối"
+    };
+
+    // Register translations with I18n system
+    if (typeof I18n !== 'undefined') {
+        I18n.addTranslations('{{entityName}}', {{entity}}I18n);
+    }
+
+    // Export for use in other files
+    window.{{entity}}I18n = {{entity}}I18n;
+})();

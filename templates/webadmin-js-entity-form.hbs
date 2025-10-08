@@ -1,7 +1,143 @@
-// {{projectName}} WebAdmin - {{entity}} form page
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('Init form for {{entity}}');
-    // TODO: Handle form submit
-});
+"use strict";
 
+(function () {
+    // Class definition
+    const {{entity}}FormPage = {
+        formValidator: null,
+        permissionFlags: AppUtils.getPermissionFlags(),
+        variables: {
+            isLoadingFromEdit: false
+        },
+        message: {
+            pageTitle: I18n.t("{{entityName}}", "PAGE_TITLE"),
+            create: I18n.t("common", "ADD_NEW"),
+            edit: I18n.t("common", "EDIT"),
+            save: I18n.t("common", "SAVE"),
+            cancel: I18n.t("common", "CANCEL"),
+            confirmTittle: I18n.t("common", "CONFIRM_TITLE"),
+            successTitle: I18n.t("common", "SUCCESS_TITLE"),
+            errorTitle: I18n.t("common", "ERROR_TITLE"),
+            createConfirm: I18n.t("common", "CREATE_CONFIRM", { name: I18n.t("{{entityName}}", "PAGE_TITLE").toLocaleLowerCase() }),
+            createSuccess: I18n.t("common", "CREATE_SUCCESS", { name: I18n.t("{{entityName}}", "PAGE_TITLE").toLocaleLowerCase() }),
+            createError: I18n.t("common", "CREATE_ERROR", { name: I18n.t("{{entityName}}", "PAGE_TITLE").toLocaleLowerCase() }),
+            updateConfirm: I18n.t("common", "UPDATE_CONFIRM", { name: I18n.t("{{entityName}}", "PAGE_TITLE").toLocaleLowerCase() }),
+            updateSuccess: I18n.t("common", "UPDATE_SUCCESS", { name: I18n.t("{{entityName}}", "PAGE_TITLE") }),
+            updateError: I18n.t("common", "UPDATE_ERROR", { name: I18n.t("{{entityName}}", "PAGE_TITLE").toLocaleLowerCase() }),
+            validationError: I18n.t("common", "VALIDATION_ERROR")
+        },
+        init: function () {
+            this.checkPermissions();
+            this.initFormValidator();
+            this.loadData();
+            this.bindEvents();
+        },
+        initFormValidator: function () {
+            this.formValidator = new FormValidator({
+                formSelector: "#kt_modal_{{entityName}}_form",
+                handleSubmit: this.saveData.bind(this),
+                rules: [
+                    {{#each properties}}
+                    {{#if isRequired}}
+                    {
+                        element: "#{{entityName}}_{{name}}",
+                        rule: [
+                            {
+                                name: "required",
+                                message: I18n.t("common", "REQUIRED", { field: "{{displayName}}" })
+                            }{{#if maxLength}},
+                            {
+                                name: "maxLength",
+                                message: I18n.t("common", "TOO_LONG", { field: "{{displayName}}", max: {{maxLength}} }),
+                                params: {{maxLength}}
+                            }{{/if}}
+                        ]
+                    }{{#unless @last}},{{/unless}}
+                    {{/if}}
+                    {{/each}}
+                ]
+            });
+        },
+        loadData: function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            
+            if (id) {
+                this.variables.isLoadingFromEdit = true;
+                this.loadEntityData(id);
+            }
+        },
+        loadEntityData: function (id) {
+            HttpService.get(ApiRoutes.{{entity}}.v1.GetById.replace('{id}', id))
+                .then(response => {
+                    this.populateForm(response.data);
+                })
+                .catch(error => {
+                    Swal.fire({
+                        title: this.message.errorTitle,
+                        text: I18n.t("common", "NOT_FOUND", { name: this.message.pageTitle.toLocaleLowerCase() }),
+                        icon: "error"
+                    }).then(() => {
+                        window.location.href = '/{{entityName}}/list';
+                    });
+                });
+        },
+        populateForm: function (data) {
+            {{#each properties}}
+            {{#if (eq type "DateTime")}}
+            if (data.{{name}}) {
+                $("#{{entityName}}_{{name}}").val(moment(data.{{name}}).format('YYYY-MM-DDTHH:mm'));
+            }
+            {{else}}
+            $("#{{entityName}}_{{name}}").val(data.{{name}} || '');
+            {{/if}}
+            {{/each}}
+        },
+        bindEvents: function () {
+            $("#kt_modal_{{entityName}}_form").on('submit', (e) => {
+                e.preventDefault();
+                this.formValidator.validate();
+            });
+            
+            $("#btn_cancel").on('click', () => {
+                window.location.href = '/{{entityName}}/list';
+            });
+        },
+        checkPermissions: function () {
+            if (!this.permissionFlags.canEdit && !this.permissionFlags.canCreate) {
+                window.location.href = '/error/403';
+            }
+        },
+        saveData: function () {
+            const formData = new FormData(document.getElementById('kt_modal_{{entityName}}_form'));
+            const data = Object.fromEntries(formData);
+            
+            const url = this.variables.isLoadingFromEdit ? 
+                ApiRoutes.{{entity}}.v1.Update.replace('{id}', data.id) : 
+                ApiRoutes.{{entity}}.v1.Create;
+            const method = this.variables.isLoadingFromEdit ? 'PUT' : 'POST';
+            
+            HttpService[method.toLowerCase()](url, data)
+                .then(response => {
+                    Swal.fire({
+                        title: this.message.successTitle,
+                        text: this.variables.isLoadingFromEdit ? this.message.updateSuccess : this.message.createSuccess,
+                        icon: "success"
+                    }).then(() => {
+                        window.location.href = '/{{entityName}}/list';
+                    });
+                })
+                .catch(error => {
+                    Swal.fire({
+                        title: this.message.errorTitle,
+                        text: this.variables.isLoadingFromEdit ? this.message.updateError : this.message.createError,
+                        icon: "error"
+                    });
+                });
+        }
+    };
 
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', function () {
+        {{entity}}FormPage.init();
+    });
+})();
