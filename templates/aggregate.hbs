@@ -1,0 +1,29 @@
+{{#each usingStatements}}
+using {{this}};
+{{/each}}
+
+namespace {{projectName}}.Domain.Aggregates
+{
+    public class {{name}}Aggregate
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+        public string? Description { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public int? CreatedBy { get; set; }
+        public DateTime? LastModifiedDate { get; set; }
+        public int? UpdatedBy { get; set; }
+{{#each customProperties}}
+        public {{csharpType}} {{name}} { get; set; }{{#if defaultValue}} = {{defaultValue}}{{/if}};
+{{/each}}
+{{#each relationships}}
+        {{#if isNavigationProperty}}
+        public int {{relatedEntity}}Id { get; set; }
+        public string {{relatedEntity}}Name { get; set; } = null!;
+        {{#if hasColor}}
+        public string? {{relatedEntity}}Color { get; set; }
+        {{/if}}
+        {{/if}}
+{{/each}}
+    }
+}

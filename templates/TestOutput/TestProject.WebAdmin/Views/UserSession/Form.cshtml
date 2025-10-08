@@ -1,0 +1,29 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>UserSession - Form @ViewBag.Id</h2>
+<form method="post">
+    <div>
+        <label>UserId</label>
+        <input name="UserId" />
+    </div>
+    <div>
+        <label>AccessTokenJti</label>
+        <input name="AccessTokenJti" />
+    </div>
+    <div>
+        <label>RefreshTokenJti</label>
+        <input name="RefreshTokenJti" />
+    </div>
+    <div>
+        <label>IsRevoked</label>
+        <input name="IsRevoked" />
+    </div>
+    <div>
+        <label>ExpiresAt</label>
+        <input name="ExpiresAt" />
+    </div>
+    <button type="submit">Save</button>
+  </form>
+
+

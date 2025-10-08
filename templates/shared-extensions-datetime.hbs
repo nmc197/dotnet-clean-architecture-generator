@@ -1,0 +1,10 @@
+namespace {{projectName}}.Shared.Extensions
+{
+    public static class DateTimeExtensions
+    {
+        public static DateTime StartOfDay(this DateTime dt) => new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0, dt.Kind);
+        public static DateTime EndOfDay(this DateTime dt) => new DateTime(dt.Year, dt.Month, dt.Day, 23, 59, 59, 999, dt.Kind);
+    }
+}
+
+

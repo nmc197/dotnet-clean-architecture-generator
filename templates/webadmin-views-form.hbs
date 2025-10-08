@@ -1,0 +1,15 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>{{entity}} - Form @ViewBag.Id</h2>
+<form method="post">
+    {{#each props}}
+    <div>
+        <label>{{name}}</label>
+        <input name="{{name}}" />
+    </div>
+    {{/each}}
+    <button type="submit">Save</button>
+  </form>
+
+

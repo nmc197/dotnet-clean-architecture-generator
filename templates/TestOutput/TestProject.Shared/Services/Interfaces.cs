@@ -1,0 +1,22 @@
+namespace TestProject.Shared.Services
+{
+    public interface ICacheService
+    {
+        T? Get<T>(string key);
+        void Set<T>(string key, T value, int seconds = 300);
+        void Remove(string key);
+    }
+
+    public interface ISerializeService
+    {
+        string Serialize<T>(T obj);
+        T? Deserialize<T>(string json);
+    }
+
+    public interface IScheduledJobService
+    {
+        void Schedule(string key, System.Action action, System.TimeSpan delay);
+    }
+}
+
+

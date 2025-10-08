@@ -1,0 +1,29 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>UserVerificationToken - Form @ViewBag.Id</h2>
+<form method="post">
+    <div>
+        <label>UserId</label>
+        <input name="UserId" />
+    </div>
+    <div>
+        <label>Token</label>
+        <input name="Token" />
+    </div>
+    <div>
+        <label>TokenType</label>
+        <input name="TokenType" />
+    </div>
+    <div>
+        <label>ExpiresAt</label>
+        <input name="ExpiresAt" />
+    </div>
+    <div>
+        <label>IsUsed</label>
+        <input name="IsUsed" />
+    </div>
+    <button type="submit">Save</button>
+  </form>
+
+

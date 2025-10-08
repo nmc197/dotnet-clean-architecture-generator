@@ -1,0 +1,13 @@
+{{#each usingStatements}}
+using {{this}};
+{{/each}}
+
+namespace {{projectName}}.Domain.DTParamters
+{
+    public class {{name}}DTParameters : DTParameters
+    {
+{{#each filterProperties}}
+        public {{csharpType}} {{name}} { get; set; }{{#if defaultValue}} = {{defaultValue}}{{/if}};
+{{/each}}
+    }
+}

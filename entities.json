@@ -1,0 +1,28 @@
+{
+  "projectName": "DemoProject",
+  "entities": [
+    {
+      "name": "Demo",
+      "properties": [
+        {
+          "name": "Name",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 100
+        },
+        {
+          "name": "Description",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 500
+        },
+        {
+          "name": "Price",
+          "type": "decimal",
+          "isRequired": true
+        }
+      ],
+      "relationships": []
+    }
+  ]
+}

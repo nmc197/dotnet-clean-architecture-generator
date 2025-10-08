@@ -1,0 +1,11 @@
+namespace {{projectName}}.Infrastructure.Constants
+{
+    public static class TableNames
+    {
+{{#each entities}}
+        public const string {{name}} = "{{pluralize name}}";
+{{/each}}
+    }
+}
+
+

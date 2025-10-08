@@ -1,0 +1,33 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>AuditLog - Form @ViewBag.Id</h2>
+<form method="post">
+    <div>
+        <label>UserId</label>
+        <input name="UserId" />
+    </div>
+    <div>
+        <label>EntityName</label>
+        <input name="EntityName" />
+    </div>
+    <div>
+        <label>EntityId</label>
+        <input name="EntityId" />
+    </div>
+    <div>
+        <label>Action</label>
+        <input name="Action" />
+    </div>
+    <div>
+        <label>OldValues</label>
+        <input name="OldValues" />
+    </div>
+    <div>
+        <label>NewValues</label>
+        <input name="NewValues" />
+    </div>
+    <button type="submit">Save</button>
+  </form>
+
+

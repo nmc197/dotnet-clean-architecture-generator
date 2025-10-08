@@ -1,0 +1,33 @@
+using TestProject.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace TestProject.Infrastructure.Persistence.Configurations
+{
+    public class ActionConfiguration : IEntityTypeConfiguration<Action>
+    {
+        public void Configure(EntityTypeBuilder<Action> builder)
+        {
+            builder.ToTable("Actions");
+
+            builder.HasKey(x => x.);
+
+            // Properties
+            builder.Property(x => x.Code)
+                .HasColumnName("Code")
+                .HasMaxLength(20)
+                .IsRequired()
+;
+            builder.Property(x => x.Color)
+                .HasColumnName("Color")
+                .HasMaxLength(7)
+;
+            builder.Property(x => x.SortOrder)
+                .HasColumnName("SortOrder")
+;
+
+            // Soft delete
+            builder.Property(x => x.IsDeleted).HasDefaultValue(false);
+        }
+    }
+}

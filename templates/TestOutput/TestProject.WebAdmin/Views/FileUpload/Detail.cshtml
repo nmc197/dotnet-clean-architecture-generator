@@ -1,0 +1,36 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>FileUpload - Detail @ViewBag.Id</h2>
+<div>
+    <div>
+        <label>FileName</label>
+        <span>@Model?.FileName</span>
+    </div>
+    <div>
+        <label>OriginalFileName</label>
+        <span>@Model?.OriginalFileName</span>
+    </div>
+    <div>
+        <label>FilePath</label>
+        <span>@Model?.FilePath</span>
+    </div>
+    <div>
+        <label>FileSize</label>
+        <span>@Model?.FileSize</span>
+    </div>
+    <div>
+        <label>MimeType</label>
+        <span>@Model?.MimeType</span>
+    </div>
+    <div>
+        <label>FileExtension</label>
+        <span>@Model?.FileExtension</span>
+    </div>
+    <div>
+        <label>UploadedBy</label>
+        <span>@Model?.UploadedBy</span>
+    </div>
+</div>
+
+

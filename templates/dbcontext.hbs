@@ -1,0 +1,53 @@
+using {{projectName}}.Domain.Entities;
+using {{projectName}}.Infrastructure.Persistence.Configurations;
+using Microsoft.EntityFrameworkCore;
+
+namespace {{projectName}}.Infrastructure.Persistence
+{
+    public class {{projectName}}Context : DbContext
+    {
+        public {{projectName}}Context(DbContextOptions<{{projectName}}Context> options) : base(options)
+        {
+        }
+
+        // DbSets for all entities
+{{#each entities}}
+        public DbSet<{{name}}> {{pluralize name}} { get; set; }
+{{/each}}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Apply all configurations
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof({{projectName}}Context).Assembly);
+
+            // Global query filters for soft delete
+{{#each entities}}
+            modelBuilder.Entity<{{name}}>().HasQueryFilter(e => !e.IsDeleted);
+{{/each}}
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            // Update audit fields
+            foreach (var entry in ChangeTracker.Entries())
+            {
+                if (entry.Entity is IAuditable auditable)
+                {
+                    switch (entry.State)
+                    {
+                        case EntityState.Added:
+                            auditable.CreatedDate = DateTime.UtcNow;
+                            break;
+                        case EntityState.Modified:
+                            auditable.LastModifiedDate = DateTime.UtcNow;
+                            break;
+                    }
+                }
+            }
+
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+    }
+}

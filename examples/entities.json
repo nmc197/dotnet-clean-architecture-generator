@@ -1,0 +1,615 @@
+{
+  "projectName": "BraceletWorkshop",
+  "entities": [
+    {
+      "name": "Bracelet",
+      "properties": [
+        {
+          "name": "Info",
+          "type": "string",
+          "isRequired": false,
+          "isNullable": true
+        },
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 50
+        },
+        {
+          "name": "MaxCharm",
+          "type": "int",
+          "isRequired": true
+        },
+        {
+          "name": "BraceletCategoryId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "BraceletCategory"
+        },
+        {
+          "name": "BraceletTypeId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "BraceletType"
+        },
+        {
+          "name": "BraceletStatusId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "BraceletStatus"
+        },
+        {
+          "name": "StockQuantity",
+          "type": "int",
+          "isRequired": true
+        },
+        {
+          "name": "Price",
+          "type": "decimal",
+          "isRequired": true
+        },
+        {
+          "name": "IsBestSeller",
+          "type": "bool",
+          "isRequired": false,
+          "defaultValue": "false"
+        },
+        {
+          "name": "BraceletImageId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "FileUpload"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "BraceletCategory",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "BraceletType",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "BraceletStatus",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "FileUpload",
+          "isCollection": false
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "BraceletPromotion",
+          "isCollection": true
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "BraceletCustomization",
+          "isCollection": true
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "OrderItemBracelet",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "BraceletCategory",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "Bracelet",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "BraceletType",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "Bracelet",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "BraceletStatus",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "Bracelet",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "Charm",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 50
+        },
+        {
+          "name": "Info",
+          "type": "string",
+          "isRequired": false,
+          "isNullable": true
+        },
+        {
+          "name": "CharmCategoryId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "CharmCategory"
+        },
+        {
+          "name": "CharmTypeId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "CharmType"
+        },
+        {
+          "name": "CharmStatusId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "CharmStatus"
+        },
+        {
+          "name": "StockQuantity",
+          "type": "int",
+          "isRequired": true
+        },
+        {
+          "name": "Price",
+          "type": "decimal",
+          "isRequired": true
+        },
+        {
+          "name": "CharmImageId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "FileUpload"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "CharmCategory",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "CharmType",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "CharmStatus",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "FileUpload",
+          "isCollection": false
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "BraceletCustomization",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "CharmCategory",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "Charm",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "CharmType",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "Charm",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "CharmStatus",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "Charm",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "properties": [
+        {
+          "name": "Email",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 100
+        },
+        {
+          "name": "PhoneNumber",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 20
+        },
+        {
+          "name": "FirstName",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 50
+        },
+        {
+          "name": "LastName",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 50
+        },
+        {
+          "name": "DateOfBirth",
+          "type": "DateTime",
+          "isRequired": false,
+          "isNullable": true
+        },
+        {
+          "name": "Gender",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 10
+        },
+        {
+          "name": "Address",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 500
+        },
+        {
+          "name": "ProvinceId",
+          "type": "int",
+          "isRequired": false,
+          "isForeignKey": true,
+          "relatedEntity": "Province"
+        },
+        {
+          "name": "DistrictId",
+          "type": "int",
+          "isRequired": false,
+          "isForeignKey": true,
+          "relatedEntity": "District"
+        },
+        {
+          "name": "WardId",
+          "type": "int",
+          "isRequired": false,
+          "isForeignKey": true,
+          "relatedEntity": "Ward"
+        },
+        {
+          "name": "UserStatusId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "UserStatus"
+        },
+        {
+          "name": "IsEmailVerified",
+          "type": "bool",
+          "isRequired": true,
+          "defaultValue": "false"
+        },
+        {
+          "name": "IsPhoneVerified",
+          "type": "bool",
+          "isRequired": true,
+          "defaultValue": "false"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "UserStatus",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "Province",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "District",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "Ward",
+          "isCollection": false
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "Order",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "UserStatus",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "User",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "Order",
+      "properties": [
+        {
+          "name": "OrderNumber",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 50
+        },
+        {
+          "name": "UserId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "User"
+        },
+        {
+          "name": "OrderStatusId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "OrderStatus"
+        },
+        {
+          "name": "TotalAmount",
+          "type": "decimal",
+          "isRequired": true
+        },
+        {
+          "name": "ShippingAddress",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 500
+        },
+        {
+          "name": "ShippingPhone",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "ShippingName",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 100
+        },
+        {
+          "name": "Notes",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 1000
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "User",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "OrderStatus",
+          "isCollection": false
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "OrderItemBracelet",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "OrderStatus",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "Order",
+          "isCollection": true
+        }
+      ]
+    }
+  ]
+}

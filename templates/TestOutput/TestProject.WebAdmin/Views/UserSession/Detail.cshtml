@@ -1,0 +1,28 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>UserSession - Detail @ViewBag.Id</h2>
+<div>
+    <div>
+        <label>UserId</label>
+        <span>@Model?.UserId</span>
+    </div>
+    <div>
+        <label>AccessTokenJti</label>
+        <span>@Model?.AccessTokenJti</span>
+    </div>
+    <div>
+        <label>RefreshTokenJti</label>
+        <span>@Model?.RefreshTokenJti</span>
+    </div>
+    <div>
+        <label>IsRevoked</label>
+        <span>@Model?.IsRevoked</span>
+    </div>
+    <div>
+        <label>ExpiresAt</label>
+        <span>@Model?.ExpiresAt</span>
+    </div>
+</div>
+
+

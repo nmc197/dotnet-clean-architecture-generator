@@ -1,0 +1,24 @@
+{{#each usingStatements}}
+using {{this}};
+{{/each}}
+
+namespace {{projectName}}.Application.Validators
+{
+    public class {{name}}Validator : AbstractValidator<Create{{name}}Dto>
+    {
+        public {{name}}Validator()
+        {
+{{#each properties}}
+            {{#if isRequired}}
+            {{#unless isSystemProperty}}
+            {{#unless isPrimaryKey}}
+            {{#if validationRules}}
+                {{validationRules}}
+            {{/if}}
+            {{/unless}}
+            {{/unless}}
+            {{/if}}
+{{/each}}
+        }
+    }
+}

@@ -1,0 +1,25 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>SystemConfig - Form @ViewBag.Id</h2>
+<form method="post">
+    <div>
+        <label>Key</label>
+        <input name="Key" />
+    </div>
+    <div>
+        <label>Value</label>
+        <input name="Value" />
+    </div>
+    <div>
+        <label>Description</label>
+        <input name="Description" />
+    </div>
+    <div>
+        <label>IsActive</label>
+        <input name="IsActive" />
+    </div>
+    <button type="submit">Save</button>
+  </form>
+
+

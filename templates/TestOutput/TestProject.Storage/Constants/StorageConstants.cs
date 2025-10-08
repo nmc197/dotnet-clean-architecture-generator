@@ -1,0 +1,9 @@
+namespace TestProject.Storage.Constants
+{
+    public static class StorageConstants
+    {
+        public const string UploadRoot = "wwwroot/uploads";
+    }
+}
+
+

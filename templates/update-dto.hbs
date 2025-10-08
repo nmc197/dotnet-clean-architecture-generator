@@ -1,0 +1,12 @@
+{{#each usingStatements}}
+using {{this}};
+{{/each}}
+
+namespace {{projectName}}.Application.DTOs.{{dtoNamespace}}
+{
+    public class Update{{name}}Dto : Create{{name}}Dto
+    {
+        public int Id { get; set; }
+        public int? UpdatedBy { get; set; }
+    }
+}

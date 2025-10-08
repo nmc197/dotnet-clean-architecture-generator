@@ -1,0 +1,12 @@
+namespace TestProject.Storage.Enums
+{
+    public enum FileCategory
+    {
+        General = 0,
+        Bracelet = 1,
+        Charm = 2,
+        Blog = 3
+    }
+}
+
+

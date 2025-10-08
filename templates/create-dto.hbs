@@ -1,0 +1,18 @@
+{{#each usingStatements}}
+using {{this}};
+{{/each}}
+
+namespace {{projectName}}.Application.DTOs.{{dtoNamespace}}
+{
+    public class Create{{name}}Dto
+    {
+{{#each properties}}
+        {{#unless isSystemProperty}}
+        {{#unless isPrimaryKey}}
+        public {{csharpType}} {{name}} { get; set; }{{#if defaultValue}} = {{defaultValue}}{{/if}};
+        {{/unless}}
+        {{/unless}}
+{{/each}}
+        public int? CreatedBy { get; set; }
+    }
+}

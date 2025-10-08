@@ -1,0 +1,32 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>AuditLog - Detail @ViewBag.Id</h2>
+<div>
+    <div>
+        <label>UserId</label>
+        <span>@Model?.UserId</span>
+    </div>
+    <div>
+        <label>EntityName</label>
+        <span>@Model?.EntityName</span>
+    </div>
+    <div>
+        <label>EntityId</label>
+        <span>@Model?.EntityId</span>
+    </div>
+    <div>
+        <label>Action</label>
+        <span>@Model?.Action</span>
+    </div>
+    <div>
+        <label>OldValues</label>
+        <span>@Model?.OldValues</span>
+    </div>
+    <div>
+        <label>NewValues</label>
+        <span>@Model?.NewValues</span>
+    </div>
+</div>
+
+

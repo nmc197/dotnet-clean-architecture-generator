@@ -1,0 +1,12 @@
+namespace TestProject.Storage.Helpers
+{
+    public static class PathHelper
+    {
+        public static string NormalizePath(string path)
+        {
+            return path.Replace("\\", "/").Trim('/');
+        }
+    }
+}
+
+

@@ -1,0 +1,40 @@
+{{#each usingStatements}}
+using {{this}};
+{{/each}}
+
+namespace {{projectName}}.Application.Mappings
+{
+    public static class {{name}}Mapping
+    {
+        public static {{name}} ToEntity(this Create{{name}}Dto dto)
+        {
+            return new {{name}}
+            {
+{{#each properties}}
+                {{#unless isSystemProperty}}
+                {{#unless isPrimaryKey}}
+                {{name}} = dto.{{name}},
+                {{/unless}}
+                {{/unless}}
+{{/each}}
+                CreatedBy = dto.CreatedBy,
+                CreatedDate = DateTime.Now,
+                IsDeleted = false
+            };
+        }
+
+        public static {{name}} ToEntity(this Update{{name}}Dto dto, {{name}} existData)
+        {
+{{#each properties}}
+            {{#unless isSystemProperty}}
+            {{#unless isPrimaryKey}}
+            existData.{{name}} = dto.{{name}};
+            {{/unless}}
+            {{/unless}}
+{{/each}}
+            existData.UpdatedBy = dto.UpdatedBy;
+            existData.LastModifiedDate = DateTime.Now;
+            return existData;
+        }
+    }
+}

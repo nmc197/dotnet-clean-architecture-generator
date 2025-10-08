@@ -1,0 +1,110 @@
+using {{projectName}}.Application.Constants;
+using {{projectName}}.Application.DependencyInjection.Extentions;
+using {{projectName}}.Application.Interfaces;
+using {{projectName}}.Domain.Entities;
+using {{projectName}}.Infrastructure.Persistence;
+using {{projectName}}.Infrastructure.Services;
+using {{projectName}}.Shared.Constants;
+using {{projectName}}.Shared.Entities;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Security.Claims;
+
+namespace {{projectName}}.API.Middlewares
+{
+    public class ExceptionHandlingMiddleware
+    {
+        private readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionHandlingMiddleware> _logger;
+
+        public ExceptionHandlingMiddleware(
+            RequestDelegate next,
+            ILogger<ExceptionHandlingMiddleware> logger)
+        {
+            _next = next;
+            _logger = logger;
+        }
+
+        public async Task InvokeAsync(HttpContext context, {{projectName}}Context dbContext, ITokenProviderService tokenProviderService)
+        {
+            var request = context.Request;
+            var requestBody = await ReadRequestBodyAsync(request);
+            var requestId = Guid.NewGuid().ToString();
+
+            try
+            {
+                await _next(context);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unhandled exception occurred. RequestId: {RequestId}", requestId);
+                await HandleExceptionAsync(context, ex, requestId, requestBody, dbContext, tokenProviderService);
+            }
+        }
+
+        private async Task<string> ReadRequestBodyAsync(HttpRequest request)
+        {
+            request.EnableBuffering();
+            request.Body.Position = 0;
+            using var reader = new StreamReader(request.Body, leaveOpen: true);
+            var body = await reader.ReadToEndAsync();
+            request.Body.Position = 0;
+            return body;
+        }
+
+        private async Task HandleExceptionAsync(
+            HttpContext context, 
+            Exception exception, 
+            string requestId, 
+            string requestBody,
+            {{projectName}}Context dbContext,
+            ITokenProviderService tokenProviderService)
+        {
+            context.Response.ContentType = "application/json";
+            
+            var response = new ApiResponse<object>
+            {
+                Success = false,
+                Message = "An error occurred while processing your request.",
+                RequestId = requestId
+            };
+
+            switch (exception)
+            {
+                case UnauthorizedAccessException:
+                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    response.Message = "Unauthorized access.";
+                    break;
+                case ArgumentException:
+                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.Message = exception.Message;
+                    break;
+                case KeyNotFoundException:
+                    context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    response.Message = "Resource not found.";
+                    break;
+                default:
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    response.Message = "An internal server error occurred.";
+                    break;
+            }
+
+            // Log the exception details
+            _logger.LogError(exception, "Exception occurred. RequestId: {RequestId}, RequestBody: {RequestBody}", 
+                requestId, requestBody);
+
+            var jsonResponse = System.Text.Json.JsonSerializer.Serialize(response);
+            await context.Response.WriteAsync(jsonResponse);
+        }
+    }
+
+    public static class ExceptionHandlingMiddlewareExtensions
+    {
+        public static IApplicationBuilder UseExceptionHandling(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<ExceptionHandlingMiddleware>();
+        }
+    }
+}
+
+

@@ -1,0 +1,28 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>UserDevice - Detail @ViewBag.Id</h2>
+<div>
+    <div>
+        <label>UserId</label>
+        <span>@Model?.UserId</span>
+    </div>
+    <div>
+        <label>DeviceId</label>
+        <span>@Model?.DeviceId</span>
+    </div>
+    <div>
+        <label>DeviceName</label>
+        <span>@Model?.DeviceName</span>
+    </div>
+    <div>
+        <label>DeviceType</label>
+        <span>@Model?.DeviceType</span>
+    </div>
+    <div>
+        <label>IsActive</label>
+        <span>@Model?.IsActive</span>
+    </div>
+</div>
+
+

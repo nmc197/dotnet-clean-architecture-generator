@@ -1,0 +1,28 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>ActivityLog - Detail @ViewBag.Id</h2>
+<div>
+    <div>
+        <label>UserId</label>
+        <span>@Model?.UserId</span>
+    </div>
+    <div>
+        <label>Action</label>
+        <span>@Model?.Action</span>
+    </div>
+    <div>
+        <label>Description</label>
+        <span>@Model?.Description</span>
+    </div>
+    <div>
+        <label>IpAddress</label>
+        <span>@Model?.IpAddress</span>
+    </div>
+    <div>
+        <label>UserAgent</label>
+        <span>@Model?.UserAgent</span>
+    </div>
+</div>
+
+

@@ -1,0 +1,19 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace {{projectName}}.API.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize]
+    public class RoleController : ControllerBase
+    {
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            return Ok(new [] { new { Id = 1, Name = "Admin" }, new { Id = 2, Name = "User" } });
+        }
+    }
+}
+
+

@@ -1,0 +1,24 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>SystemConfig - Detail @ViewBag.Id</h2>
+<div>
+    <div>
+        <label>Key</label>
+        <span>@Model?.Key</span>
+    </div>
+    <div>
+        <label>Value</label>
+        <span>@Model?.Value</span>
+    </div>
+    <div>
+        <label>Description</label>
+        <span>@Model?.Description</span>
+    </div>
+    <div>
+        <label>IsActive</label>
+        <span>@Model?.IsActive</span>
+    </div>
+</div>
+
+

@@ -1,0 +1,27 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace {{projectName}}.API.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize]
+    public class SystemConfigController : ControllerBase
+    {
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            // TODO: Implement config storage
+            return Ok(new { items = Array.Empty<object>() });
+        }
+
+        [HttpPost]
+        public IActionResult Upsert([FromBody] object config)
+        {
+            // TODO: Implement upsert
+            return Ok(config);
+        }
+    }
+}
+
+

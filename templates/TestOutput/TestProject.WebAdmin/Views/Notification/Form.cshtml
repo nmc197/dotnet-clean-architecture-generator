@@ -1,0 +1,33 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Notification - Form @ViewBag.Id</h2>
+<form method="post">
+    <div>
+        <label>Title</label>
+        <input name="Title" />
+    </div>
+    <div>
+        <label>Content</label>
+        <input name="Content" />
+    </div>
+    <div>
+        <label>NotificationCategoryId</label>
+        <input name="NotificationCategoryId" />
+    </div>
+    <div>
+        <label>NotificationTypeId</label>
+        <input name="NotificationTypeId" />
+    </div>
+    <div>
+        <label>IsActive</label>
+        <input name="IsActive" />
+    </div>
+    <div>
+        <label>PublishedAt</label>
+        <input name="PublishedAt" />
+    </div>
+    <button type="submit">Save</button>
+  </form>
+
+

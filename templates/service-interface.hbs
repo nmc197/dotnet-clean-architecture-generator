@@ -1,0 +1,11 @@
+{{#each usingStatements}}
+using {{this}};
+{{/each}}
+
+namespace {{projectName}}.Application.Interfaces
+{
+    public interface I{{name}}Service : IServiceBase<int, Create{{name}}Dto, Update{{name}}Dto, {{name}}DTParameters>
+    {
+        // Add custom methods here if needed
+    }
+}

@@ -1,0 +1,20 @@
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+namespace TestProject.Domain.Abstractions.Repositories
+{
+    public interface IRepositoryBase<TEntity, TKey> where TEntity : class
+    {
+        Task<TEntity?> GetByIdAsync(TKey id);
+        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<IEnumerable<TEntity>> FindAsync(Expression<System.Func<TEntity, bool>> predicate);
+        Task AddAsync(TEntity entity);
+        Task AddRangeAsync(IEnumerable<TEntity> entities);
+        void Update(TEntity entity);
+        void Remove(TEntity entity);
+        void RemoveRange(IEnumerable<TEntity> entities);
+    }
+}
+
+

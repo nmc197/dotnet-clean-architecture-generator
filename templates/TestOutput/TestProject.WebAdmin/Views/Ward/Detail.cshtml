@@ -1,0 +1,24 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Ward - Detail @ViewBag.Id</h2>
+<div>
+    <div>
+        <label>DistrictId</label>
+        <span>@Model?.DistrictId</span>
+    </div>
+    <div>
+        <label>Code</label>
+        <span>@Model?.Code</span>
+    </div>
+    <div>
+        <label>Name</label>
+        <span>@Model?.Name</span>
+    </div>
+    <div>
+        <label>SortOrder</label>
+        <span>@Model?.SortOrder</span>
+    </div>
+</div>
+
+

@@ -1,0 +1,30 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace TestProject.API.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize]
+    public class FileManagerController : ControllerBase
+    {
+        [HttpPost("upload")]
+        [RequestSizeLimit(52428800)] // 50 MB
+        public async Task<IActionResult> Upload(IFormFile file, CancellationToken cancellationToken)
+        {
+            // TODO: Implement real upload
+            await Task.CompletedTask;
+            return Ok(new { fileName = file?.FileName, size = file?.Length ?? 0 });
+        }
+
+        [HttpDelete("delete")]
+        public IActionResult Delete([FromQuery] string path)
+        {
+            // TODO: Implement real delete
+            return Ok(new { deleted = path });
+        }
+    }
+}
+
+

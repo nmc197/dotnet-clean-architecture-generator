@@ -1,0 +1,32 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Notification - Detail @ViewBag.Id</h2>
+<div>
+    <div>
+        <label>Title</label>
+        <span>@Model?.Title</span>
+    </div>
+    <div>
+        <label>Content</label>
+        <span>@Model?.Content</span>
+    </div>
+    <div>
+        <label>NotificationCategoryId</label>
+        <span>@Model?.NotificationCategoryId</span>
+    </div>
+    <div>
+        <label>NotificationTypeId</label>
+        <span>@Model?.NotificationTypeId</span>
+    </div>
+    <div>
+        <label>IsActive</label>
+        <span>@Model?.IsActive</span>
+    </div>
+    <div>
+        <label>PublishedAt</label>
+        <span>@Model?.PublishedAt</span>
+    </div>
+</div>
+
+

@@ -1,0 +1,14 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>{{entity}} - Detail @ViewBag.Id</h2>
+<div>
+    {{#each props}}
+    <div>
+        <label>{{name}}</label>
+        <span>@Model?.{{name}}</span>
+    </div>
+    {{/each}}
+</div>
+
+

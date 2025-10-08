@@ -1,0 +1,70 @@
+{
+  "projectName": "MyProject",
+  "entities": [
+    {
+      "name": "Product",
+      "properties": [
+        {
+          "name": "Name",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 100
+        },
+        {
+          "name": "Description",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 500
+        },
+        {
+          "name": "Price",
+          "type": "decimal",
+          "isRequired": true
+        },
+        {
+          "name": "StockQuantity",
+          "type": "int",
+          "isRequired": true
+        },
+        {
+          "name": "CategoryId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "Category"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "Category",
+          "isCollection": false
+        }
+      ]
+    },
+    {
+      "name": "Category",
+      "properties": [
+        {
+          "name": "Name",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 50
+        },
+        {
+          "name": "Description",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 200
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "Product",
+          "isCollection": true
+        }
+      ]
+    }
+  ]
+}

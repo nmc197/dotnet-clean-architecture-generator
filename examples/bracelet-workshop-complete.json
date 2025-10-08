@@ -1,0 +1,1076 @@
+{
+  "projectName": "BraceletWorkshop",
+  "entities": [
+    {
+      "name": "User",
+      "properties": [
+        {
+          "name": "Email",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 100
+        },
+        {
+          "name": "PhoneNumber",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 20
+        },
+        {
+          "name": "FirstName",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 50
+        },
+        {
+          "name": "LastName",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 50
+        },
+        {
+          "name": "DateOfBirth",
+          "type": "DateTime",
+          "isRequired": false,
+          "isNullable": true
+        },
+        {
+          "name": "Gender",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 10
+        },
+        {
+          "name": "Address",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 500
+        },
+        {
+          "name": "ProvinceId",
+          "type": "int",
+          "isRequired": false,
+          "isForeignKey": true,
+          "relatedEntity": "Province"
+        },
+        {
+          "name": "DistrictId",
+          "type": "int",
+          "isRequired": false,
+          "isForeignKey": true,
+          "relatedEntity": "District"
+        },
+        {
+          "name": "WardId",
+          "type": "int",
+          "isRequired": false,
+          "isForeignKey": true,
+          "relatedEntity": "Ward"
+        },
+        {
+          "name": "UserStatusId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "UserStatus"
+        },
+        {
+          "name": "IsEmailVerified",
+          "type": "bool",
+          "isRequired": true,
+          "defaultValue": "false"
+        },
+        {
+          "name": "IsPhoneVerified",
+          "type": "bool",
+          "isRequired": true,
+          "defaultValue": "false"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "UserStatus",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "Province",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "District",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "Ward",
+          "isCollection": false
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "Order",
+          "isCollection": true
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "UserRole",
+          "isCollection": true
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "UserSession",
+          "isCollection": true
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "UserDevice",
+          "isCollection": true
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "UserVerificationToken",
+          "isCollection": true
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "UserNotification",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "Role",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "UserRole",
+          "isCollection": true
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "ActionInMenu",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "UserRole",
+      "properties": [
+        {
+          "name": "UserId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "User"
+        },
+        {
+          "name": "RoleId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "Role"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "User",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "Role",
+          "isCollection": false
+        }
+      ]
+    },
+    {
+      "name": "Permission",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "Action",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "ActionInMenu",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "Menu",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "ActionInMenu",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "ActionInMenu",
+      "properties": [
+        {
+          "name": "ActionId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "Action"
+        },
+        {
+          "name": "MenuId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "Menu"
+        },
+        {
+          "name": "RoleId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "Role"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "Action",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "Menu",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "Role",
+          "isCollection": false
+        }
+      ]
+    },
+    {
+      "name": "UserSession",
+      "properties": [
+        {
+          "name": "UserId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "User"
+        },
+        {
+          "name": "AccessTokenJti",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 100
+        },
+        {
+          "name": "RefreshTokenJti",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 100
+        },
+        {
+          "name": "IsRevoked",
+          "type": "bool",
+          "isRequired": true,
+          "defaultValue": "false"
+        },
+        {
+          "name": "ExpiresAt",
+          "type": "DateTime",
+          "isRequired": true
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "User",
+          "isCollection": false
+        }
+      ]
+    },
+    {
+      "name": "UserDevice",
+      "properties": [
+        {
+          "name": "UserId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "User"
+        },
+        {
+          "name": "DeviceId",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 100
+        },
+        {
+          "name": "DeviceName",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 100
+        },
+        {
+          "name": "DeviceType",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 20
+        },
+        {
+          "name": "IsActive",
+          "type": "bool",
+          "isRequired": true,
+          "defaultValue": "true"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "User",
+          "isCollection": false
+        }
+      ]
+    },
+    {
+      "name": "UserStatus",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "User",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "UserVerificationToken",
+      "properties": [
+        {
+          "name": "UserId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "User"
+        },
+        {
+          "name": "Token",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 200
+        },
+        {
+          "name": "TokenType",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "ExpiresAt",
+          "type": "DateTime",
+          "isRequired": true
+        },
+        {
+          "name": "IsUsed",
+          "type": "bool",
+          "isRequired": true,
+          "defaultValue": "false"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "User",
+          "isCollection": false
+        }
+      ]
+    },
+    {
+      "name": "ActivityLog",
+      "properties": [
+        {
+          "name": "UserId",
+          "type": "int",
+          "isRequired": false,
+          "isForeignKey": true,
+          "relatedEntity": "User"
+        },
+        {
+          "name": "Action",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 100
+        },
+        {
+          "name": "Description",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 500
+        },
+        {
+          "name": "IpAddress",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 50
+        },
+        {
+          "name": "UserAgent",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 500
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "User",
+          "isCollection": false
+        }
+      ]
+    },
+    {
+      "name": "AuditLog",
+      "properties": [
+        {
+          "name": "UserId",
+          "type": "int",
+          "isRequired": false,
+          "isForeignKey": true,
+          "relatedEntity": "User"
+        },
+        {
+          "name": "EntityName",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 100
+        },
+        {
+          "name": "EntityId",
+          "type": "int",
+          "isRequired": true
+        },
+        {
+          "name": "Action",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "OldValues",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 2000
+        },
+        {
+          "name": "NewValues",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 2000
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "User",
+          "isCollection": false
+        }
+      ]
+    },
+    {
+      "name": "SystemConfig",
+      "properties": [
+        {
+          "name": "Key",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 100
+        },
+        {
+          "name": "Value",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 1000
+        },
+        {
+          "name": "Description",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 500
+        },
+        {
+          "name": "IsActive",
+          "type": "bool",
+          "isRequired": true,
+          "defaultValue": "true"
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "Notification",
+      "properties": [
+        {
+          "name": "Title",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 200
+        },
+        {
+          "name": "Content",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 2000
+        },
+        {
+          "name": "NotificationCategoryId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "NotificationCategory"
+        },
+        {
+          "name": "NotificationTypeId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "NotificationType"
+        },
+        {
+          "name": "IsActive",
+          "type": "bool",
+          "isRequired": true,
+          "defaultValue": "true"
+        },
+        {
+          "name": "PublishedAt",
+          "type": "DateTime",
+          "isRequired": false,
+          "isNullable": true
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "NotificationCategory",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "NotificationType",
+          "isCollection": false
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "UserNotification",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "NotificationCategory",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "Notification",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "NotificationType",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "Notification",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "UserNotification",
+      "properties": [
+        {
+          "name": "UserId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "User"
+        },
+        {
+          "name": "NotificationId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "Notification"
+        },
+        {
+          "name": "IsRead",
+          "type": "bool",
+          "isRequired": true,
+          "defaultValue": "false"
+        },
+        {
+          "name": "ReadAt",
+          "type": "DateTime",
+          "isRequired": false,
+          "isNullable": true
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "User",
+          "isCollection": false
+        },
+        {
+          "type": "navigation",
+          "relatedEntity": "Notification",
+          "isCollection": false
+        }
+      ]
+    },
+    {
+      "name": "Province",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 10
+        },
+        {
+          "name": "Name",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 100
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "District",
+          "isCollection": true
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "User",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "District",
+      "properties": [
+        {
+          "name": "ProvinceId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "Province"
+        },
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 10
+        },
+        {
+          "name": "Name",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 100
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "Province",
+          "isCollection": false
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "Ward",
+          "isCollection": true
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "User",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "Ward",
+      "properties": [
+        {
+          "name": "DistrictId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "District"
+        },
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 10
+        },
+        {
+          "name": "Name",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 100
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "District",
+          "isCollection": false
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "User",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "Tag",
+      "properties": [
+        {
+          "name": "TagTypeId",
+          "type": "int",
+          "isRequired": true,
+          "isForeignKey": true,
+          "relatedEntity": "TagType"
+        },
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "TagType",
+          "isCollection": false
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "BlogPostTag",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "TagType",
+      "properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 20
+        },
+        {
+          "name": "Color",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 7
+        },
+        {
+          "name": "SortOrder",
+          "type": "int",
+          "isRequired": false,
+          "defaultValue": "0"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "collection",
+          "relatedEntity": "Tag",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "FileUpload",
+      "properties": [
+        {
+          "name": "FileName",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 200
+        },
+        {
+          "name": "OriginalFileName",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 200
+        },
+        {
+          "name": "FilePath",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 500
+        },
+        {
+          "name": "FileSize",
+          "type": "long",
+          "isRequired": true
+        },
+        {
+          "name": "MimeType",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 100
+        },
+        {
+          "name": "FileExtension",
+          "type": "string",
+          "isRequired": false,
+          "maxLength": 10
+        },
+        {
+          "name": "UploadedBy",
+          "type": "int",
+          "isRequired": false,
+          "isForeignKey": true,
+          "relatedEntity": "User"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "User",
+          "isCollection": false
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "Bracelet",
+          "isCollection": true
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "Charm",
+          "isCollection": true
+        },
+        {
+          "type": "collection",
+          "relatedEntity": "BlogPost",
+          "isCollection": true
+        }
+      ]
+    },
+    {
+      "name": "FolderUpload",
+      "properties": [
+        {
+          "name": "FolderName",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 200
+        },
+        {
+          "name": "FolderPath",
+          "type": "string",
+          "isRequired": true,
+          "maxLength": 500
+        },
+        {
+          "name": "CreatedBy",
+          "type": "int",
+          "isRequired": false,
+          "isForeignKey": true,
+          "relatedEntity": "User"
+        }
+      ],
+      "relationships": [
+        {
+          "type": "navigation",
+          "relatedEntity": "User",
+          "isCollection": false
+        }
+      ]
+    }
+  ]
+}
+
+

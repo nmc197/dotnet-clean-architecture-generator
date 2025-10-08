@@ -1,0 +1,16 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace {{projectName}}.Infrastructure.DependencyInjection.Options
+{
+    public static class InfrastructureOptions
+    {
+        public static IServiceCollection AddInfrastructureOptions(this IServiceCollection services, IConfiguration configuration)
+        {
+            // TODO: Bind strongly-typed options if available
+            return services;
+        }
+    }
+}
+
+

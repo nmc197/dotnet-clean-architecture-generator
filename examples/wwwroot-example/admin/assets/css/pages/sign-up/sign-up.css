@@ -1,0 +1,127 @@
+﻿/*body {
+    background-image: url('/admin/assets/media/auth/bg10.jpg');
+}
+*/
+/*[data-bs-theme="dark"] body {
+    background-image: url('/admin/assets/media/auth/bg10-dark.jpg');
+}
+*/
+.mx-520px {
+    max-width: 520px;
+}
+
+.mx-600px {
+    max-width: 600px;
+}
+
+.mx-700px {
+    max-width: 700px;
+}
+
+.mx-800px {
+    max-width: 800px;
+}
+
+.p-20px {
+    padding: 20px !important;
+}
+
+.ml-10px {
+    margin-left: 10px !important;
+}
+
+
+.sign-up-left {
+    width: 50%;
+    /* padding: 32px; */
+    background: #fff;
+}
+
+.sign-up-right {
+    background-image: url('/admin/assets/media/pages/general/background.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.right-top-title img {
+    width: 100.89px;
+    height: 100.89px;
+    object-fit: contain;
+}
+
+.right-top-title {
+    gap: 22.89px;
+    margin-bottom: 42px;
+}
+
+.title-right {
+    gap: 6.8px;
+}
+
+    .title-right h3 {
+        color: #FFF;
+        font-size: 27.218px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        text-transform: uppercase;
+        margin: 0;
+    }
+
+    .title-right p {
+        color: rgba(255, 255, 255, 0.50);
+        font-size: 23.816px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        margin: 0;
+    }
+
+.right-bot-description {
+    color: #FFF;
+    text-align: center;
+    /* Inter/14 regular */
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: var(--line-height-21_45, 21.45px); /* 153.214% */
+    max-width: 600px;
+    margin: 0;
+}
+
+
+.logo-mobile-container {
+    display: none;
+}
+
+.mobile-title-text h3 {
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.mobile-title-text p {
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin: 0;
+}
+
+
+@media screen and (max-width: 991px) {
+    .sign-up-left {
+        width: 100%;
+    }
+
+    .sign-up-right {
+        display: none !important;
+    }
+
+    .logo-mobile-container {
+        display: block;
+    }
+}

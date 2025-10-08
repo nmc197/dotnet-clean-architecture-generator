@@ -1,0 +1,86 @@
+{{#each usingStatements}}
+using {{this}};
+{{/each}}
+
+namespace {{projectName}}.API.Controllers
+{
+    [Authorize]
+    [ApiVersion(1)]
+    [Route("api/v{version:apiVersion}/{{routeName}}")]
+    [ApiController]
+    public class {{name}}Controller : BaseController,
+        IBaseController<int, Create{{name}}Dto, Update{{name}}Dto, {{name}}DTParameters>
+    {
+        private readonly I{{name}}Service _{{camelCaseName}}Service;
+        
+        public {{name}}Controller(I{{name}}Service {{camelCaseName}}Service)
+        {
+            _{{camelCaseName}}Service = {{camelCaseName}}Service;
+        }
+
+        [HttpPost]
+        [CustomAuthorize(Enums.Menu.{{menuEnum}}, Enums.Action.CREATE)]
+        public async Task<IActionResult> CreateAsync([FromBody] Create{{name}}Dto obj)
+        {
+            obj.CreatedBy = this.GetLoggedInUserId();
+            var data = await _{{camelCaseName}}Service.CreateAsync(obj);
+            return BaseResult(data);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            var data = await _{{camelCaseName}}Service.GetAllAsync();
+            return BaseResult(data);
+        }
+
+        [HttpGet("{id}")]
+        [CustomAuthorize(Enums.Menu.{{menuEnum}}, Enums.Action.READ)]
+        public async Task<IActionResult> GetByIdAsync(int id)
+        {
+            var data = await _{{camelCaseName}}Service.GetByIdAsync(id);
+            return BaseResult(data);
+        }
+
+        [HttpPost("paged")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPagedAsync([FromBody] SearchQuery query)
+        {
+            var data = await _{{camelCaseName}}Service.GetPagedAsync(query);
+            return BaseResult(data);
+        }
+
+        [HttpPost("paged-advanced")]
+        [CustomAuthorize(Enums.Menu.{{menuEnum}}, Enums.Action.READ)]
+        public async Task<IActionResult> GetPagedAsync([FromBody] {{name}}DTParameters parameters)
+        {
+            var data = await _{{camelCaseName}}Service.GetPagedAsync(parameters);
+            return BaseResult(data);
+        }
+
+        [HttpDelete("{id}")]
+        [CustomAuthorize(Enums.Menu.{{menuEnum}}, Enums.Action.DELETE)]
+        public async Task<IActionResult> SoftDeleteAsync(int id)
+        {
+            var result = await _{{camelCaseName}}Service.SoftDeleteAsync(id);
+            return BaseResult(result);
+        }
+
+        [HttpPut]
+        [CustomAuthorize(Enums.Menu.{{menuEnum}}, Enums.Action.UPDATE)]
+        public async Task<IActionResult> UpdateAsync([FromBody] Update{{name}}Dto obj)
+        {
+            obj.UpdatedBy = this.GetLoggedInUserId();
+            var result = await _{{camelCaseName}}Service.UpdateAsync(obj);
+            return BaseResult(result);
+        }
+
+        [HttpPut("update-list")]
+        public async Task<IActionResult> UpdateListAsync([FromBody] List<Update{{name}}Dto> objs)
+        {
+            var result = await _{{camelCaseName}}Service.UpdateListAsync(objs);
+            return BaseResult(result);
+        }
+    }
+}

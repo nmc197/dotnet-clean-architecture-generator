@@ -1,0 +1,37 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>FileUpload - Form @ViewBag.Id</h2>
+<form method="post">
+    <div>
+        <label>FileName</label>
+        <input name="FileName" />
+    </div>
+    <div>
+        <label>OriginalFileName</label>
+        <input name="OriginalFileName" />
+    </div>
+    <div>
+        <label>FilePath</label>
+        <input name="FilePath" />
+    </div>
+    <div>
+        <label>FileSize</label>
+        <input name="FileSize" />
+    </div>
+    <div>
+        <label>MimeType</label>
+        <input name="MimeType" />
+    </div>
+    <div>
+        <label>FileExtension</label>
+        <input name="FileExtension" />
+    </div>
+    <div>
+        <label>UploadedBy</label>
+        <input name="UploadedBy" />
+    </div>
+    <button type="submit">Save</button>
+  </form>
+
+

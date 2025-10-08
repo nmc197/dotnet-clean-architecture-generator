@@ -1,0 +1,26 @@
+{{#each usingStatements}}
+using {{this}};
+{{/each}}
+
+namespace {{namespace}}
+{
+    public class {{name}} : EntityCommonBase<int>
+    {
+{{#each properties}}
+        {{#unless isSystemProperty}}
+        public {{csharpType}} {{name}} { get; set; }{{#if defaultValue}} = {{defaultValue}}{{/if}};
+        {{/unless}}
+{{/each}}
+{{#each relationships}}
+        {{#if isNavigationProperty}}
+        public virtual {{relatedEntity}} {{relatedEntity}} { get; set; } = null!;
+        {{/if}}
+{{/each}}
+{{#each relationships}}
+        {{#if isCollection}}
+        [JsonIgnore]
+        public virtual ICollection<{{relatedEntity}}> {{relatedEntityPlural}} { get; set; } = new List<{{relatedEntity}}>();
+        {{/if}}
+{{/each}}
+    }
+}

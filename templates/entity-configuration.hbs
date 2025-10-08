@@ -1,0 +1,31 @@
+using {{projectName}}.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace {{projectName}}.Infrastructure.Persistence.Configurations
+{
+    public class {{name}}Configuration : IEntityTypeConfiguration<{{name}}>
+    {
+        public void Configure(EntityTypeBuilder<{{name}}> builder)
+        {
+            builder.ToTable("{{name}}s");
+
+            builder.HasKey(x => x.{{primaryKey.name}});
+
+            // Properties
+{{#each properties}}
+            builder.Property(x => x.{{name}})
+                .HasColumnName("{{name}}")
+{{#if maxLength}}
+                .HasMaxLength({{maxLength}})
+{{/if}}
+{{#if isRequired}}
+                .IsRequired()
+{{/if}};
+{{/each}}
+
+            // Soft delete
+            builder.Property(x => x.IsDeleted).HasDefaultValue(false);
+        }
+    }
+}

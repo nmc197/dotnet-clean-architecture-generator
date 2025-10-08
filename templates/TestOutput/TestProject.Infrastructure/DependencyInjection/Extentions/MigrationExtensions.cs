@@ -1,0 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace TestProject.Infrastructure.DependencyInjection.Extentions
+{
+    public static class MigrationExtensions
+    {
+        public static void ApplyMigrations<TContext>(this IServiceScope scope) where TContext : DbContext
+        {
+            var context = scope.ServiceProvider.GetRequiredService<TContext>();
+            context.Database.Migrate();
+        }
+    }
+}
+
+

@@ -1,0 +1,20 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>FolderUpload - Detail @ViewBag.Id</h2>
+<div>
+    <div>
+        <label>FolderName</label>
+        <span>@Model?.FolderName</span>
+    </div>
+    <div>
+        <label>FolderPath</label>
+        <span>@Model?.FolderPath</span>
+    </div>
+    <div>
+        <label>CreatedBy</label>
+        <span>@Model?.CreatedBy</span>
+    </div>
+</div>
+
+

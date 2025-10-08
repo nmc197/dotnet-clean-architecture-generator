@@ -1,0 +1,17 @@
+{{#each usingStatements}}
+using {{this}};
+{{/each}}
+
+namespace {{projectName}}.Application.DTOs.{{dtoNamespace}}
+{
+    public class {{name}}ListDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+        public string? Description { get; set; }
+        public DateTime CreatedDate { get; set; }
+{{#each customProperties}}
+        public {{csharpType}} {{name}} { get; set; }{{#if defaultValue}} = {{defaultValue}}{{/if}};
+{{/each}}
+    }
+}

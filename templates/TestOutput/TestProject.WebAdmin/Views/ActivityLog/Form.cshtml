@@ -1,0 +1,29 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>ActivityLog - Form @ViewBag.Id</h2>
+<form method="post">
+    <div>
+        <label>UserId</label>
+        <input name="UserId" />
+    </div>
+    <div>
+        <label>Action</label>
+        <input name="Action" />
+    </div>
+    <div>
+        <label>Description</label>
+        <input name="Description" />
+    </div>
+    <div>
+        <label>IpAddress</label>
+        <input name="IpAddress" />
+    </div>
+    <div>
+        <label>UserAgent</label>
+        <input name="UserAgent" />
+    </div>
+    <button type="submit">Save</button>
+  </form>
+
+

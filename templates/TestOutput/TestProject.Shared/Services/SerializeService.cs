@@ -1,0 +1,24 @@
+using System.Text.Json;
+
+namespace TestProject.Shared.Services
+{
+    public interface ISerializeService
+    {
+        string Serialize<T>(T value);
+        T? Deserialize<T>(string json);
+    }
+
+    public class SerializeService : ISerializeService
+    {
+        private static readonly JsonSerializerOptions Options = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = false
+        };
+
+        public string Serialize<T>(T value) => JsonSerializer.Serialize(value, Options);
+        public T? Deserialize<T>(string json) => JsonSerializer.Deserialize<T>(json, Options);
+    }
+}
+
+

@@ -1,0 +1,29 @@
+using Microsoft.AspNetCore.Http;
+using TestProject.Storage.Interfaces;
+
+namespace TestProject.Storage.Services
+{
+    public class StorageService : IStorageService
+    {
+        public async Task<string> UploadAsync(IFormFile file, CancellationToken cancellationToken = default)
+        {
+            // TODO: Implement upload
+            await Task.CompletedTask;
+            return file.FileName;
+        }
+
+        public async Task<bool> DeleteAsync(string path, CancellationToken cancellationToken = default)
+        {
+            await Task.CompletedTask;
+            return true;
+        }
+
+        public async Task<bool> CreateFolderAsync(string path, CancellationToken cancellationToken = default)
+        {
+            await Task.CompletedTask;
+            return true;
+        }
+    }
+}
+
+

@@ -1,0 +1,28 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>UserVerificationToken - Detail @ViewBag.Id</h2>
+<div>
+    <div>
+        <label>UserId</label>
+        <span>@Model?.UserId</span>
+    </div>
+    <div>
+        <label>Token</label>
+        <span>@Model?.Token</span>
+    </div>
+    <div>
+        <label>TokenType</label>
+        <span>@Model?.TokenType</span>
+    </div>
+    <div>
+        <label>ExpiresAt</label>
+        <span>@Model?.ExpiresAt</span>
+    </div>
+    <div>
+        <label>IsUsed</label>
+        <span>@Model?.IsUsed</span>
+    </div>
+</div>
+
+
